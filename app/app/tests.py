@@ -4,9 +4,9 @@ from app import calc
 
 
 class CalcTests(SimpleTestCase):
-    #test calc module
+    # test calc module
 
     def test_add_numbers(self):
-        res=calc.add(5,6)
+        res = calc.add(5, 6)
 
         self.assertEqual(res, 11)
