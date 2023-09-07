@@ -196,7 +196,7 @@ class PrivateRecipeApiTests(TestCase):
         """Test creating a recipe with new tags."""
         payload = {
             'title': 'Thai Prawn Curry',
-            'Time_minutes': 30,
+            'time_minutes': 30,
             'price': Decimal('2.5'),
             'tags': [{'name': 'Thai'}, {'name': 'Dinner'}]
         }
@@ -212,14 +212,14 @@ class PrivateRecipeApiTests(TestCase):
                 name=tag['name'],
                 user=self.user,
             ).exists()
-            self.asserTrue(exists)
+            self.assertTrue(exists)
 
     def test_create_with_existing_tags(self):
         """Test creating a recipe with existing tag."""
         tag_indian = Tag.objects.create(user=self.user, name='Indian')
         payload = {
             'title': 'Pongal',
-            'Time_minutes': 60,
+            'time_minutes': 60,
             'price': Decimal('4.50'),
             'tags': [{'name': 'Indian'}, {'name': 'Breakfast'}],
         }
@@ -236,4 +236,4 @@ class PrivateRecipeApiTests(TestCase):
                 name=tag['name'],
                 user=self.user,
             ).exists()
-            self.asserTrue(exists)
+            self.assertTrue(exists)
