@@ -44,7 +44,7 @@ def create_user(**params):
 
 
 
-class PublicRecipeApiTests(TestCase):
+class PublicRecipeAPITests(TestCase):
     """Test auth is required to call API."""
 
     def setUp(self):
@@ -181,7 +181,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Recipe.objects.filter(id=recipe.id).exists())
 
-    def test_delete_other_users_recipe_error(self):
+    def test_recipe_other_users_recipe_error(self):
         """Test trying to delete another user recipe gives error."""
         new_user = create_user(email='user2@example.com', password='test123')
         recipe = create_recipe(user=new_user)
@@ -214,7 +214,7 @@ class PrivateRecipeApiTests(TestCase):
             ).exists()
             self.assertTrue(exists)
 
-    def test_create_with_existing_tags(self):
+    def test_create_recipe_with_existing_tags(self):
         """Test creating a recipe with existing tag."""
         tag_indian = Tag.objects.create(user=self.user, name='Indian')
         payload = {
@@ -292,9 +292,9 @@ class PrivateRecipeApiTests(TestCase):
         recipes = Recipe.objects.filter(user=self.user)
         self.assertEqual(recipes.count(), 1)
         recipe = recipes[0]
-        self.assertEqual(recipe.ingredients.count(), 2)
+        self.assertEqual(recipe.ingredient.count(), 2)
         for ingredient in payload['ingredients']:
-            exists = recipe.ingredients.filter(
+            exists = recipe.ingredient.filter(
                 name=ingredient['name'],
                 user=self.user,
             ).exists()
@@ -315,10 +315,10 @@ class PrivateRecipeApiTests(TestCase):
         recipes = Recipe.objects.filter(user=self.user)
         self.assertEqual(recipes.count(), 1)
         recipe = recipes[0]
-        self.assertEqual(recipe.ingredients.count(), 2)
-        self.assertIn(ingredient, recipe.ingredients.all())
+        self.assertEqual(recipe.ingredient.count(), 2)
+        self.assertIn(ingredient, recipe.ingredient.all())
         for ingredient in payload['ingredients']:
-            exists = recipe.ingredients.filter(
+            exists = recipe.ingredient.filter(
                 name=ingredient['name'],
                 user=self.user,
             ).exists()
